@@ -13,8 +13,8 @@ let scoreDefault = 20;
 let highscore = 0;
 // number.textContent = secretNumber;
 
-const displayMessage = function (message) {
-  message.textContent = message;
+const displayMessage = function (mes) {
+  message.textContent = mes;
 };
 
 const btnCheck = document.querySelector('.check');
