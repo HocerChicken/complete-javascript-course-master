@@ -26,4 +26,62 @@ const restaurant = {
       close: 24,
     },
   },
+  order: function (starterIndex, mainIndex) {
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
 };
+/*
+// Destructuring Array
+const arr = [1, 2, 3];
+
+const a = arr[0];
+const b = arr[1];
+const c = arr[2];
+
+let [x, y, z] = arr;
+let [first, , third] = arr; // [1, 3]
+console.log('🚀 ~ first, , third:', first, third);
+console.log(x, y, z); // 1 2 3
+console.log(arr); // [1, 2, 3]
+
+let [main, secondary] = restaurant.categories;
+console.log(main, secondary); // Italian Pizzeria
+
+// Switching variables
+const temp = main;
+main = secondary;
+secondary = temp;
+console.log(main, secondary); // Pizzeria Italian
+
+[main, secondary] = [secondary, main];
+console.log(main, secondary); // Italian Pizzeria
+
+// Nested destructuring
+const nested = [2, 3, [4, 6]];
+const [i, , [j, k]] = nested;
+console.log(i, j, k); // 2 4 6
+
+// Default Values
+const [r = 1, q = 1, p = 1] = [8];
+console.log(r, q, p); // 8 1 1
+*/
+
+/////////////////////////////////////////////////////
+// Destructuring Objects
+const { name, openingHours, categories } = restaurant;
+console.log(name, openingHours, categories);
+
+// Default Values
+const { menu = [], starterMenu: starterMenu = [] } = restaurant;
+console.log(menu, starterMenu);
+
+// Mutating Variables
+let a = 111;
+let b = 0;
+
+const obj = {a: 23, b: 7, c: 14};
+({a, b} = obj);
+console.log(a, b);
+
+//nested Objects
+const {sat} = openingHours;
