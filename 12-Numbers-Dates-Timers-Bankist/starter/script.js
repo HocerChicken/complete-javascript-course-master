@@ -153,7 +153,7 @@ const updateUI = function (acc) {
 
 ///////////////////////////////////////
 // Event handlers
-let currentAccount;
+let currentAccount, timer;
 
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
@@ -174,11 +174,36 @@ btnLogin.addEventListener('click', function (e) {
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
-
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
     // Update UI
     updateUI(currentAccount);
   }
 });
+
+const startLogOutTimer = function () {
+  const tick = function () {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(Math.trunc(time % 60)).padStart(2, 0);
+
+    // In each call, print the remaining time to UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    // When 0 seconds, stop timer and log out user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+    }
+    time--;
+  };
+  let time = 120;
+  // Call the timer every second
+  tick();
+  const timer = setInterval(tick, 1000);
+
+  return timer;
+};
 
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
@@ -200,6 +225,10 @@ btnTransfer.addEventListener('click', function (e) {
 
     // Update UI
     updateUI(currentAccount);
+
+    // Reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 });
 
@@ -214,6 +243,9 @@ btnLoan.addEventListener('click', function (e) {
 
     // Update UI
     updateUI(currentAccount);
+    // reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
   inputLoanAmount.value = '';
 });
@@ -236,6 +268,7 @@ btnClose.addEventListener('click', function (e) {
 
     // Hide UI
     containerApp.style.opacity = 0;
+    clearInterval(timer);
   }
 
   inputCloseUsername.value = inputClosePin.value = '';
@@ -251,3 +284,63 @@ btnSort.addEventListener('click', function (e) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+// Converting and checking numbers
+console.log(23 === 23.0); // true
+// base 10 - 0 to 9 - 1/10 = 0.1, 3/10 = 3.3333
+// binary base 2 - 0, 1
+console.log(0.1 + 0.2); // 0.30000000000000004
+
+// conversion
+console.log(Number('23')); // 23
+console.log(+'23'); // 23
+
+// Parsing
+console.log(Number.parseInt('30px')); // 30
+console.log(Number.parseInt('e23')); // NaN
+
+console.log(Number.parseInt('   2.5rem   ')); // 2
+console.log(Number.parseFloat('   2.5rem   ')); // 2.5
+
+// Check a value if is NaN
+console.log(Number.isNaN(23)); // false
+console.log(Number.isNaN('23')); // false
+console.log(Number.isNaN(+'20X')); // true
+console.log(Number.isNaN(23 / 0)); // false
+
+// Check a value if is Number
+console.log(Number.isFinite(23)); // true
+console.log(Number.isFinite('23')); // false
+console.log(Number.isFinite(+'20X')); // false
+console.log(Number.isFinite(23 / 0)); // false
+
+// Date
+const now = new Date(); // current date and time
+console.log('log ~ now:', now);
+
+console.log(new Date('Aug 01 2015 18:45:41')); // Sat Aug 01 2015 18:45:41 GMT+0200 (Central European Summer Time)
+console.log(new Date('December 24, 2015')); // Thu Dec 24 2015 00:00:00 GMT+0100 (Central European Standard Time)
+console.log(new Date(account1.movementsDates[0])); // Mon Nov 18 2019 22:31:17 GMT+0100 (Central European Standard Time)
+
+console.log(new Date(2037, 10, 19, 15, 23, 5)); // Fri Nov 19 2037 15:23:05 GMT+0100 (Central European Standard Time)
+console.log(new Date(2037, 10, 31)); // Sun Dec 01 2037 00:00:00 GMT+0100 (Central European Standard Time)
+
+console.log(new Date(0)); // Thu Jan 01 1970 01:00:00 GMT+0100 (Central European Standard Time)
+console.log(new Date(3 * 24 * 60 * 60 * 1000)); // Sun Jan 04 1970 01:00:00 GMT+0100 (Central European Standard Time)
+
+// Working with dates
+const future = new Date(2037, 10, 19, 15, 23);
+console.log(future.getFullYear());
+console.log(future.getMonth());
+console.log(future.getDate());
+console.log(future.getDay());
+console.log(future.getHours());
+console.log(future.getMinutes());
+console.log(future.getSeconds());
+console.log(future.toISOString());
+console.log(future.getTime());
+
+console.log(new Date(2142256980000));
+
+console.log(Date.now());
+
+future.setFullYear(2024);
